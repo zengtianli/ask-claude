@@ -20,3 +20,4 @@ icon/AppIcon.iconset/
 # release artifacts
 *.zip
 build/
+catalog.yaml
