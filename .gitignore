@@ -16,3 +16,7 @@ xcuserdata/
 
 # icon intermediates (icns is the committed artifact)
 icon/AppIcon.iconset/
+
+# release artifacts
+*.zip
+build/
