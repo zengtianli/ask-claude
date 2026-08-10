@@ -71,3 +71,9 @@ Nowhere new — sessions are managed by the Claude Code CLI on your machine, the
 ## License
 
 [MIT](LICENSE)
+
+## Relationship to the private version
+
+This repo is a **one-way snapshot** of the author's private build. It is refreshed
+only when the private version cuts a release — day-to-day private commits are not
+mirrored, so this repo may lag behind at any given time. (Policy set 2026-08-10.)
