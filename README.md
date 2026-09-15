@@ -1,38 +1,42 @@
 # Ask Claude
 
-A tiny native macOS chat app for your **Claude subscription** — no API key, no extra billing.
+**中文** | [English](README_EN.md)
 
-It shells out to the [Claude Code CLI](https://claude.com/claude-code) (`claude -p`) that you already have installed, so every question runs on your existing Claude Pro/Max plan, exactly like asking in a terminal — but with a real chat window, live streaming, and multi-turn memory.
+使用你的 **Claude 订阅**的小巧原生 macOS 聊天应用，无需 API 密钥，也没有额外计费。
+
+它调用已经安装的 [Claude Code CLI](https://claude.com/claude-code)（`claude -p`），每次提问使用现有的 Claude Pro/Max 套餐，就像在终端里提问，同时提供聊天窗口、实时流式输出和多轮对话记忆。
 
 ![Ask Claude](docs/screenshot.png)
 
-## Why
+## 为什么使用它
 
-- **Zero API key.** Uses the `claude` binary's own login. If `claude` works in your terminal, this app works.
-- **Streaming progress.** Connecting → model confirmed → tokens render as they arrive. No staring at a blank window.
-- **Multi-turn memory.** Conversations resume via the CLI's session mechanism (`--resume`). ⌘N starts a fresh one.
-- **Native and tiny.** Pure SwiftUI, one small binary, no Electron, no web view, no background daemon.
-- **Opus by default.** Quick questions deserve the best model; switch with one `defaults write` (below).
+- **无需 API 密钥。** 使用 `claude` 程序自身的登录状态。终端中能运行 `claude`，应用就能使用。
+- **流式显示进度。** 从连接、确认模型，到文字逐步出现，避免面对空白窗口等待。
+- **多轮记忆。** 通过 CLI 会话机制（`--resume`）继续对话，⌘N 新建会话。
+- **原生且小巧。** 纯 SwiftUI，一个小型二进制文件，无 Electron、网页视图或后台守护进程。
+- **默认使用 Opus。** 快速提问也使用最佳模型；可通过下文的一条 `defaults write` 命令切换。
 
-## Requirements
+## 环境要求
 
-- macOS 15+ (Apple Silicon)
-- [Claude Code CLI](https://claude.com/claude-code) installed and logged in (`claude` works in your terminal)
-- A Claude subscription (Pro / Max)
+- macOS 15+（Apple Silicon）
+- 安装并登录 [Claude Code CLI](https://claude.com/claude-code)，在终端中可以运行 `claude`
+- Claude 订阅（Pro / Max）
 
-## Install
+## 安装
 
-**From a release:** download `AskClaude-<version>-arm64.zip` from [Releases](../../releases), unzip, move `Ask Claude.app` to `/Applications`.
+**下载发行版：** 从 [Releases](../../releases) 下载 `AskClaude-<version>-arm64.zip`，解压后将 `Ask Claude.app` 移到 `/Applications`。
 
-The app is ad-hoc signed (no paid Apple Developer certificate), so macOS will quarantine the download. Clear it once:
+应用使用临时签名（没有付费 Apple Developer 证书），macOS 会对下载内容添加隔离标记。执行一次以下命令即可清除：
+
 
 ```bash
 xattr -cr "/Applications/Ask Claude.app"
 ```
 
-or right-click the app → Open, then allow it under **System Settings → Privacy & Security**.
+也可以右键应用 → 打开，再在 **系统设置 → 隐私与安全性** 中允许运行。
 
-**From source:**
+**从源码安装：**
+
 
 ```bash
 git clone https://github.com/zengtianli/ask-claude.git
@@ -40,9 +44,10 @@ cd ask-claude
 ./build.sh --install   # requires Xcode
 ```
 
-## Configuration
+## 配置
 
-Everything is optional and lives in `defaults`:
+所有配置都是可选项，存放在 `defaults` 中：
+
 
 ```bash
 # Model passed to `claude --model` (default: opus)
@@ -52,28 +57,26 @@ defaults write io.github.zengtianli.AskClaude model sonnet
 defaults write io.github.zengtianli.AskClaude claudePath ~/my/bin/claude
 ```
 
-By default the app looks for `claude` in `~/.local/bin`, `/opt/homebrew/bin`, `/usr/local/bin`, then `$PATH`.
+应用依次在 `~/.local/bin`、`/opt/homebrew/bin`、`/usr/local/bin` 和 `$PATH` 中查找 `claude`。
 
-## FAQ
+## 常见问题
 
-**Does this cost anything on top of my subscription?**
-No. It runs `claude -p` locally — same quota, same billing (none extra) as using the CLI yourself.
+**订阅之外还会额外收费吗？**
+不会。应用在本机运行 `claude -p`，配额和计费与直接使用 CLI 相同，没有额外费用。
 
-**"Claude Code CLI not found"?**
-Install it from <https://claude.com/claude-code>, or set `claudePath` (see Configuration).
+**提示“Claude Code CLI not found”？**
+从 <https://claude.com/claude-code> 安装，或设置 `claudePath`（见“配置”）。
 
-**Why is the app "damaged" / blocked on first launch?**
-It's ad-hoc signed. Run `xattr -cr "/Applications/Ask Claude.app"` once, or allow it in System Settings → Privacy & Security. Building from source avoids this entirely.
+**为什么首次启动提示应用“已损坏”或被阻止？**
+这是临时签名导致的。执行一次 `xattr -cr "/Applications/Ask Claude.app"`，或在系统设置 → 隐私与安全性中允许运行。从源码构建可避免这一问题。
 
-**Where do conversations go?**
-Nowhere new — sessions are managed by the Claude Code CLI on your machine, the same as terminal usage. The app stores no chat history of its own.
+**对话保存在哪里？**
+没有新增存储位置。会话由本机 Claude Code CLI 管理，与终端使用方式相同；应用不自行保存聊天历史。
 
-## License
+## 许可
 
 [MIT](LICENSE)
 
-## Relationship to the private version
+## 与私有版本的关系
 
-This repo is a **one-way snapshot** of the author's private build. It is refreshed
-only when the private version cuts a release — day-to-day private commits are not
-mirrored, so this repo may lag behind at any given time. (Policy set 2026-08-10.)
+本仓库是作者私有版本的**单向快照**。只有私有版本发布时才会更新；日常私有提交不会镜像到这里，因此本仓库可能落后于私有版本。（此规则于 2026-08-10 确定。）
